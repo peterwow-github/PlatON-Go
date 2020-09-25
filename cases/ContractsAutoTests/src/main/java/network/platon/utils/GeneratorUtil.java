@@ -62,6 +62,7 @@ public class GeneratorUtil {
 
     public void generatorWasm(String contractName) throws Exception {
         try {
+            System.out.println("==========start wasm generator==========");
             String filePath = FileUtil.pathOptimization(Paths.get("src", "test", "resources", "contracts", "wasm", "build").toUri().getPath());
             String binPath = filePath + contractName + ".wasm";
             String abiPath = filePath + contractName + ".abi.json";
