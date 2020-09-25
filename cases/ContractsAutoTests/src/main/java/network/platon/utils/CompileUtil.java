@@ -45,6 +45,7 @@ public class CompileUtil {
             sb = new StringBuffer();
 
             String line;
+            System.out.println("args: " + args);
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
