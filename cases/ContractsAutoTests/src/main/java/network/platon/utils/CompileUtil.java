@@ -49,7 +49,7 @@ public class CompileUtil {
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
-
+            System.out.println("args: " + args[2]);
             String result = sb.toString();
             System.out.println(result);
         } catch (Exception e) {
