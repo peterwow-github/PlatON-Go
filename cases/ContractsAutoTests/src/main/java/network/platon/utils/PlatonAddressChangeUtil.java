@@ -16,8 +16,8 @@
 
 package network.platon.utils;
 
-import com.platon.sdk.utlis.Bech32;
-import org.web3j.utils.Numeric;
+import com.alaya.bech32.Bech32;
+import com.alaya.utils.Numeric;
 
 import java.io.ByteArrayOutputStream;
 import java.util.*;
