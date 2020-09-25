@@ -6,8 +6,6 @@
 
 using namespace platon;
 
-
-
 CONTRACT cross_caller_noret : public platon::Contract {
     public:
         ACTION void init(){}
