@@ -7,33 +7,36 @@
 using namespace platon;
 
 
-CONTRACT cross_caller_noret : public platon::Contract {
-    public:
-        ACTION void init(){}
 
-        ACTION void callFeed(std::string target_address, uint64_t gasValue) {
+CONTRACT cross_caller_noret : public platon::Contract {
+    public:
+        ACTION void init(){}
 
-            uint64_t transfer_value = 0;
+        ACTION void callFeed(std::string target_address, uint64_t gasValue) {
 
-            auto address_info = make_address(target_address);
-            if(address_info.second){
-                if (platon_call(address_info.first, transfer_value, gasValue, "info")) {
-                 status.self() = 0; // successed
+            uint64_t transfer_value = 0;
 
-                 DEBUG("cross_caller_noret call receiver_noret info has successed!")
-             } else {
-                 status.self() = 1; //failed
+            platon::bytes params = platon::cross_call_args("info");
 
-                 DEBUG("cross_caller_noret call receiver_noret info has failed!")
-             }
-            }
-        }
-       CONST uint64_t get_status(){
-          return  status.self();
-       }
+            auto address_info = make_address(target_address);
+            if(address_info.second){
+                if (platon_call(#elselsls, params, transfer_value, gasValue)) {
+                 status.self() = 0; // successed
 
-       private:
-           platon::StorageType<"status"_n, uint64_t> status;
+                 DEBUG("cross_caller_noret call receiver_noret info has successed!")
+             } else {
+                 status.self() = 1; //failed
+
+                 DEBUG("cross_caller_noret call receiver_noret info has failed!")
+             }
+            }
+        }
+       CONST uint64_t get_status(){
+          return  status.self();
+       }
+
+       private:
+           platon::StorageType<"status"_n, uint64_t> status;
 
 };
 
