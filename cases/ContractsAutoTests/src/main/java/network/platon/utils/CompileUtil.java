@@ -1,10 +1,7 @@
 package network.platon.utils;
 
-import com.example.contract.Solc;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,11 +42,9 @@ public class CompileUtil {
             sb = new StringBuffer();
 
             String line;
-            System.out.println("args: " + args[2]);
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
             }
-            System.out.println("args: " + args[2]);
             String result = sb.toString();
             System.out.println(result);
         } catch (Exception e) {
