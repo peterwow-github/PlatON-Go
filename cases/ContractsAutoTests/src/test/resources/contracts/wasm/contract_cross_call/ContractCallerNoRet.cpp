@@ -3,13 +3,12 @@
 #include <platon/platon.hpp>
 #include <vector>
 #include <string>
-
 using namespace platon;
 
 CONTRACT cross_caller_noret : public platon::Contract {
 	public:
 	ACTION void init(){}
-	ACTION void callFeed(std::string target_address, uint64_t gasValue) a{
+	ACTION void callFeed(std::string target_address, uint64_t gasValue) {
 		uint64_t transfer_value = 0;
 		auto address_info = make_address(target_address);
 		if(address_info.second){

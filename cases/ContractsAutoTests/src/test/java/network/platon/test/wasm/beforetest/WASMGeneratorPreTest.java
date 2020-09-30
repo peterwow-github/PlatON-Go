@@ -1,20 +1,19 @@
 package network.platon.test.wasm.beforetest;
 
+import lombok.extern.slf4j.Slf4j;
 import network.platon.autotest.junit.annotations.DataSource;
 import network.platon.autotest.junit.enums.DataSourceType;
-import network.platon.autotest.junit.rules.AssertCollector;
-import network.platon.autotest.junit.rules.DriverService;
 import network.platon.autotest.utils.FileUtil;
 import network.platon.test.BaseTest;
 import network.platon.utils.CompileUtil;
 import network.platon.utils.GeneratorUtil;
 import network.platon.utils.OneselfFileUtil;
-import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +25,7 @@ import java.util.concurrent.Semaphore;
  * @author qcxiao
  * @updateTime 2020/2/6 12:11
  */
+@Slf4j
 public class WASMGeneratorPreTest extends BaseTest {
 
     @Test
@@ -96,6 +96,7 @@ public class WASMGeneratorPreTest extends BaseTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
+                    log.info(buildPath + fileName);
                     compileUtil.wasmCompile(file, buildPath + fileName);
                     collector.logStepPass("compile success:" + file);
                 } catch (Exception e) {
