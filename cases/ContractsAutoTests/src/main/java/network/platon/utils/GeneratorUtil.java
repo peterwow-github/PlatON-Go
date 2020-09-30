@@ -47,7 +47,7 @@ public class GeneratorUtil {
                 if (os.startsWith("Windows")) {
                     args = new String[]{"cmd", "/C", rootPath + "platon-web3j.bat" + " " + "solidity" + " " + "generate" + " " + binPath + " " + abiPath + " " + "-o" + " " + outputPath + " " + "-p" + " " + packagePath};
                 } else {
-                    System.out.println("Not supported operate system platform");
+                    log.error("Not supported operate system platform");
                 }
             } else {
                 args = new String[]{"/bin/bash", "-c", rootPath + "platon-web3j" + " " + "solidity" + " " + "generate" + " " + binPath + " " + abiPath + " " + "-o" + " " + outputPath + " " + "-p" + " " + packagePath};
@@ -62,7 +62,6 @@ public class GeneratorUtil {
 
     public void generatorWasm(String contractName) throws Exception {
         try {
-            System.out.println("==========start wasm generator==========");
             String filePath = FileUtil.pathOptimization(Paths.get("src", "test", "resources", "contracts", "wasm", "build").toUri().getPath());
             String binPath = filePath + contractName + ".wasm";
             String abiPath = filePath + contractName + ".abi.json";

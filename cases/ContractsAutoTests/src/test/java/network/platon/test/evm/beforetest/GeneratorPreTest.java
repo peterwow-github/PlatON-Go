@@ -2,6 +2,7 @@ package network.platon.test.evm.beforetest;
 
 import com.alaya.bech32.Bech32;
 import com.alaya.protocol.core.methods.response.TransactionReceipt;
+import lombok.extern.slf4j.Slf4j;
 import network.platon.autotest.junit.annotations.DataSource;
 import network.platon.autotest.junit.enums.DataSourceType;
 import network.platon.autotest.utils.FileUtil;
@@ -24,6 +25,7 @@ import java.util.concurrent.Semaphore;
  * @author: qcxiao
  * @create: 2019/12/18 11:27
  **/
+@Slf4j
 public class GeneratorPreTest extends ContractPrepareTest {
 
     private String contractAndLibrarys;
@@ -51,7 +53,7 @@ public class GeneratorPreTest extends ContractPrepareTest {
             String[] contractAndLibrarysArr = contractAndLibrarys.split(";");
             if (contractAndLibrarysArr.length > 0) {
                 for (int i = 0; i < contractAndLibrarysArr.length; i++) {
-                    System.out.println("contractAndLibrarysArr[i] is:" + contractAndLibrarysArr[i]);
+                    log.info("contractAndLibrarysArr[i] is:" + contractAndLibrarysArr[i]);
                     String[] singleContractLib = contractAndLibrarysArr[i].split("&");
                     deployLibrary(singleContractLib[0], singleContractLib[1]);
                 }

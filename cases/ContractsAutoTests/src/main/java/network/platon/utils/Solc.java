@@ -38,14 +38,13 @@ public class Solc {
 
     public static String pullSolcBin(String contractPath) throws Exception {
         String versionContent = readFile(contractPath);
-        log.info(versionContent);
         String version = parseSolcVersion(versionContent);
-        System.out.println("Found solc compiler version: " + version);
+        log.info("Found solc compiler version: " + version);
         if (version.equals("")) {
-            System.out.println("Contract not provider compiler version, please check source file");
+            log.error("Contract not provider compiler version, please check source file");
             throw new Exception("Contract not provider compiler version");
         } else if (!checkSolcVersion(version)) {
-            System.out.println("Not supported solc version, must be 0.4.12 or later");
+            log.error("Not supported solc version, must be 0.4.12 or later");
             throw new Exception("Not supported solc version, must be 0.4.12 or later");
         } else {
             String os = System.getProperty("os.name");
@@ -58,7 +57,7 @@ public class Solc {
                     saveFileName = "solc-windows-" + version + ".zip";
                     absolutePath = ".\\solc\\";
                 } else {
-                    System.out.println("Unsupported operate system platform");
+                    log.error("Unsupported operate system platform");
                 }
             } else {
                 solcUrl = "https://github.com/PlatONnetwork/solidity/releases/download/platon_v" + version + "/solc";
@@ -68,10 +67,9 @@ public class Solc {
 
             Path path = Paths.get(absolutePath + saveFileName);
             if (Files.exists(path, new LinkOption[0])) {
-                System.out.println("Solc binary(" + version + ") exist in local ....");
                 return version;
             } else {
-                System.out.println("Pulling solc binary, waiting a moment .....");
+                log.info("Pulling solc binary, waiting a moment .....");
                 String path1 = downRemoteFile(solcUrl, saveFileName, absolutePath);
                 if (!path1.equals("")) {
                     if (os.startsWith("Windows")) {
@@ -104,7 +102,7 @@ public class Solc {
                 if (os.startsWith("Windows")) {
                     cmd = new String[]{"cmd", "/C", "cd .\\scripts && compile.bat " + version + " " + contractPath + " " + targetPath};
                 } else {
-                    System.out.println("Not supported operate system platform");
+                    log.error("Not supported operate system platform");
                 }
             } else {
                 cmd = new String[]{"/bin/bash", "-c", "pwd && cd ./scripts && ./compile.sh " + version + " " + contractPath + " " + targetPath};
@@ -130,7 +128,6 @@ public class Solc {
                 }
 
                 String result = sb.toString();
-                System.out.println(result);
                 br.close();
                 bufrError.close();
                 if (ps != null) {
@@ -151,26 +148,18 @@ public class Solc {
     public static String readFile(String filePath) {
         File file = new File(filePath);
         BufferedReader reader = null;
-
-        String var4;
+        String line = null;
         try {
             reader = new BufferedReader(new FileReader(file));
-            String tempString = null;
-
-            do {
-                if ((tempString = reader.readLine()) == null) {
-                    reader.close();
-                    var4 = "";
-                    return var4;
+            while((line = reader.readLine()) != null){
+                if(line.matches("(\\s)?pragma(\\s)?solidity.*")){
+                    break;
                 }
-            } while(tempString.equals(""));
-
+            }
             reader.close();
-            var4 = tempString;
-            return var4;
         } catch (IOException var15) {
             var15.printStackTrace();
-            var4 = "";
+            line = "";
         } finally {
             if (reader != null) {
                 try {
@@ -180,8 +169,7 @@ public class Solc {
             }
 
         }
-
-        return var4;
+        return line;
     }
 
     public static String parseSolcVersion(String content) {
@@ -326,7 +314,7 @@ public class Solc {
             for(ZipEntry ze = zis.getNextEntry(); ze != null; ze = zis.getNextEntry()) {
                 String fileName = ze.getName();
                 File newFile = new File(destDir + File.separator + fileName);
-                System.out.println("Unzipping to " + newFile.getAbsolutePath());
+                log.info("Unzipping to " + newFile.getAbsolutePath());
                 (new File(newFile.getParent())).mkdirs();
                 FileOutputStream fos = new FileOutputStream(newFile);
 

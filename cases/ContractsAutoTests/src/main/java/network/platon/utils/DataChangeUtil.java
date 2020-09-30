@@ -118,7 +118,6 @@ public class DataChangeUtil {
     public static void main(String[] args) {
 //        String hexvalue = "aaaa";
 //        byte bytess = hexToByte(hexvalue);
-//        System.out.println(bytess);
         test();
     }
 
